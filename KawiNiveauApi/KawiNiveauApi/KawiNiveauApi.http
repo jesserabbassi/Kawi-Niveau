@@ -1,0 +1,6 @@
+@KawiNiveauApi_HostAddress = http://localhost:5013
+
+GET {{KawiNiveauApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
