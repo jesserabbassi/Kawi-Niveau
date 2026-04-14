@@ -31,13 +31,28 @@ namespace KawiNiveauApi.Controllers
         public async Task<IActionResult> GetCourse(int id)
         {
             var course = await _context.Courses
-                .Include(c => c.Lessons)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Where(c => c.Id == id)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Title,
+                    c.Description,
+                    Lessons = c.Lessons
+                        .OrderBy(l => l.order)
+                        .Select(l => new
+                        {
+                            l.Id,
+                            l.title,
+                            l.content,
+                            l.order,
+                            l.CourseId
+                        })
+                        .ToList()
+                })
+                .FirstOrDefaultAsync();
 
             if (course == null)
                 return NotFound();
-
-            course.Lessons = course.Lessons.OrderBy(l => l.order).ToList();
 
             return Ok(course);
         }

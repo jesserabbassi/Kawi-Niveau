@@ -69,8 +69,15 @@ namespace KawiNiveauApi.Controllers
             var userId = int.Parse(userIdClaim);
 
             var progress = await _context.ProgressRecords
-                .Include(p => p.Lesson)
                 .Where(p => p.UserId == userId)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.LessonId,
+                    p.IsCompleted,
+                    p.CompletedAt,
+                    LessonTitle = p.Lesson != null ? p.Lesson.title : null
+                })
                 .ToListAsync();
 
             return Ok(progress);

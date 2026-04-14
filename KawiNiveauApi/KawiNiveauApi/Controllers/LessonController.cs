@@ -74,7 +74,6 @@ namespace KawiNiveauApi.Controllers
             return Ok(lesson);
         }
         [Authorize(Roles = "Admin")]
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLesson(int id)
         {
