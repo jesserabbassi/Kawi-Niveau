@@ -1,6 +1,6 @@
-# LearnFlow
+# KawiNiveau
 
-LearnFlow is a full-stack SaaS-oriented learning platform built for modern online education workflows. It combines course delivery, enrollment management, lesson progress tracking, and admin analytics in a clean dashboard-driven experience, with marketplace and e-commerce foundations ready for future expansion.
+KawiNiveau is a full-stack SaaS-oriented learning platform built for modern online education workflows. It combines course delivery, enrollment management, lesson progress tracking, and admin analytics in a clean dashboard-driven experience, with marketplace and e-commerce foundations ready for future expansion.
 
 ## 🚀 Features
 
