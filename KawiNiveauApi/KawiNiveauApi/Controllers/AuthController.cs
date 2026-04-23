@@ -56,6 +56,9 @@ namespace KawiNiveauApi.Controllers
             if (user == null)
                 return Unauthorized("Invalid email or password.");
 
+            if (!user.IsActive)
+                return Unauthorized("User account is inactive.");
+
             var validPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
             if (!validPassword)
                 return Unauthorized("Invalid email or password.");

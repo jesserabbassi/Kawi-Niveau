@@ -9,6 +9,11 @@ dist/
 
 # Env
 .env
+.env.local
+Front-end/client/.env
+Front-end/client/.env.local
+KawiNiveauApi/KawiNiveauApi/.env
+KawiNiveauApi/KawiNiveauApi/.env.local
 
 # Logs
 *.log

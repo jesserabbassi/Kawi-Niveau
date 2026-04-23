@@ -18,11 +18,18 @@ namespace KawiNiveauApi.Controllers
             _context = context;
         }
 
-        [HttpGet]
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetCourses()
         {
-            var courses = await _context.Courses.ToListAsync();
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+
+            IQueryable<Course> query = _context.Courses;
+
+            if (role != "Admin")
+                query = query.Where(c => c.IsPublished);
+
+            var courses = await query.ToListAsync();
             return Ok(courses);
         }
 
@@ -30,6 +37,9 @@ namespace KawiNiveauApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse(int id)
         {
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
             var course = await _context.Courses
                 .Where(c => c.Id == id)
                 .Select(c => new
@@ -37,6 +47,13 @@ namespace KawiNiveauApi.Controllers
                     c.Id,
                     c.Title,
                     c.Description,
+                    c.ThumbnailUrl,
+                    c.Price,
+                    c.IsFree,
+                    c.Category,
+                    c.Level,
+                    c.IsPublished,
+                    c.CreatedAt,
                     Lessons = c.Lessons
                         .OrderBy(l => l.order)
                         .Select(l => new
@@ -54,6 +71,25 @@ namespace KawiNiveauApi.Controllers
             if (course == null)
                 return NotFound();
 
+            if (role != "Admin")
+            {
+                if (!course.IsPublished)
+                    return Forbid();
+
+                if (userIdClaim == null)
+                    return Unauthorized();
+
+                var userId = int.Parse(userIdClaim);
+
+                var enrolled = await _context.Enrollments.AnyAsync(e =>
+                    e.UserId == userId &&
+                    e.CourseId == id &&
+                    e.Status == "Active");
+
+                if (!enrolled)
+                    return Forbid();
+            }
+
             return Ok(course);
         }
 
@@ -64,7 +100,13 @@ namespace KawiNiveauApi.Controllers
             var course = new Course
             {
                 Title = dto.Title,
-                Description = dto.Description
+                Description = dto.Description,
+                ThumbnailUrl = dto.ThumbnailUrl,
+                Price = dto.IsFree ? 0 : dto.Price,
+                IsFree = dto.IsFree,
+                Category = dto.Category,
+                Level = dto.Level,
+                IsPublished = dto.IsPublished
             };
 
             _context.Courses.Add(course);
@@ -84,6 +126,12 @@ namespace KawiNiveauApi.Controllers
 
             course.Title = dto.Title;
             course.Description = dto.Description;
+            course.ThumbnailUrl = dto.ThumbnailUrl;
+            course.Price = dto.IsFree ? 0 : dto.Price;
+            course.IsFree = dto.IsFree;
+            course.Category = dto.Category;
+            course.Level = dto.Level;
+            course.IsPublished = dto.IsPublished;
 
             await _context.SaveChangesAsync();
 

@@ -11,4 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Lesson> Lessons { get; set; } 
     public DbSet<User> Users { get; set; } 
     public DbSet<ProgressRecord> ProgressRecords { get; set; }
+    public DbSet<Enrollment> Enrollments { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 }
