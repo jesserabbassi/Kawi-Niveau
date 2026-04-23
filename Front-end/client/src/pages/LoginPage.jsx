@@ -16,58 +16,54 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password
-      });
-
+      const response = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      navigate("/courses");
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "60px auto", fontFamily: "Arial" }}>
-      <h1>Login</h1>
+    <div className="auth-wrapper">
+      <div className="auth-card">
+        <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "12px" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <div style={{ marginBottom: "12px" }}>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-        <button type="submit" disabled={loading} style={{ padding: "10px 16px" }}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+          <div className="form-actions">
+            <button type="submit" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </div>
+        </form>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="text-danger">{error}</p>}
 
-      <p style={{ marginTop: "16px" }}>
-        Don’t have an account? <Link to="/register">Register</Link>
-      </p>
+        <p className="text-muted">
+          No account? <Link to="/register">Register</Link>
+        </p>
+      </div>
     </div>
   );
 }

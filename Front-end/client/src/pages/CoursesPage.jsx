@@ -1,21 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../api/api";
+import AppLayout from "../components/AppLayout";
 
 function CoursesPage() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
-
-  const user = JSON.parse(localStorage.getItem("user") || "null");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -24,7 +15,6 @@ function CoursesPage() {
         setCourses(response.data);
       } catch (err) {
         setError("Failed to load courses");
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -34,33 +24,45 @@ function CoursesPage() {
   }, []);
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1>Courses</h1>
-        <div>
-          <span style={{ marginRight: "12px" }}>
-            {user ? `${user.fullName} (${user.role})` : ""}
-          </span>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      </div>
+    <AppLayout>
+      <h1 className="page-title">Courses</h1>
 
-      {loading && <p>Loading courses...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-danger">{error}</p>}
 
-      {!loading && !error && courses.length === 0 && <p>No courses found.</p>}
-
-      {!loading && !error && courses.length > 0 && (
-        <ul>
+      {!loading && !error && (
+        <div className="course-grid">
           {courses.map((course) => (
-            <li key={course.id} style={{ marginBottom: "12px" }}>
-              <strong>{course.title}</strong> - {course.description}{" "}
-              <Link to={`/courses/${course.id}`}>View details</Link>
-            </li>
+            <div className="course-card" key={course.id}>
+              {course.thumbnailUrl && (
+                <img src={course.thumbnailUrl} alt={course.title} />
+              )}
+
+              <div className="course-card-body">
+                <h3>{course.title}</h3>
+                <p>{course.description}</p>
+
+                <div className="course-meta">Category: {course.category || "-"}</div>
+                <div className="course-meta">Level: {course.level || "-"}</div>
+                <div className="course-meta">
+                  Price: {course.isFree ? "Free" : `${course.price} TND`}
+                </div>
+
+                <div style={{ marginTop: "10px" }}>
+                  <span className={`badge ${course.isPublished ? "badge-published" : "badge-draft"}`}>
+                    {course.isPublished ? "Published" : "Draft"}
+                  </span>
+                </div>
+
+                <div className="course-actions">
+                  <Link to={`/courses/${course.id}`}>View details</Link>
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
-    </div>
+    </AppLayout>
   );
 }
 
