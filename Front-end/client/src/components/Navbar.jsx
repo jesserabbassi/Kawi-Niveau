@@ -11,34 +11,24 @@ function Navbar() {
   };
 
   return (
-    <div
-      style={{
-        height: "64px",
-        background: "#111827",
-        color: "white",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 24px",
-        borderBottom: "1px solid #1f2937"
-      }}
-    >
-      <div>
-        <h2 style={{ margin: 0, fontSize: "22px" }}>LearnFlow</h2>
+    <header className="topbar">
+      <div className="topbar__brand">
+        <p className="topbar__eyebrow">Kawi Niveau</p>
+        <h2 className="topbar__title">LearnFlow</h2>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <div className="topbar__actions">
         {user && (
-          <>
-            <span>{user.fullName}</span>
+          <div className="topbar__user">
+            <span className="topbar__name">{user.fullName}</span>
             <span className={`badge ${user.role === "Admin" ? "badge-admin" : "badge-student"}`}>
               {user.role}
             </span>
-          </>
+          </div>
         )}
         <button onClick={handleLogout}>Logout</button>
       </div>
-    </div>
+    </header>
   );
 }
 

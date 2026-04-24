@@ -36,14 +36,14 @@ function DashboardPage() {
       <div className="grid grid-2">
         <div className="metric-card">
           <div className="metric-label">Welcome back</div>
-          <div className="metric-value" style={{ fontSize: "22px" }}>
+          <div className="metric-value metric-value--compact">
             {user?.fullName || "User"}
           </div>
         </div>
 
         <div className="metric-card">
           <div className="metric-label">Role</div>
-          <div className="metric-value" style={{ fontSize: "22px" }}>
+          <div className="metric-value metric-value--compact">
             {user?.role || "-"}
           </div>
         </div>

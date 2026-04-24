@@ -74,7 +74,7 @@ function AdminPage() {
     <AppLayout>
       <h1 className="page-title">Admin Panel</h1>
 
-      <div className="section-card" style={{ marginBottom: "24px" }}>
+      <div className="section-card section-card--spaced">
         <h3>Create Course</h3>
 
         <form onSubmit={createCourse}>
@@ -118,22 +118,22 @@ function AdminPage() {
           </div>
 
           <div className="form-actions">
-            <label>
+            <label className="checkbox-field">
               <input
+                className="checkbox-input"
                 type="checkbox"
                 checked={isFree}
                 onChange={(e) => setIsFree(e.target.checked)}
-                style={{ width: "auto", marginRight: "8px" }}
               />
               Free
             </label>
 
-            <label>
+            <label className="checkbox-field">
               <input
+                className="checkbox-input"
                 type="checkbox"
                 checked={isPublished}
                 onChange={(e) => setIsPublished(e.target.checked)}
-                style={{ width: "auto", marginRight: "8px" }}
               />
               Published
             </label>

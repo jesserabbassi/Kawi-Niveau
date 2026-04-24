@@ -3,11 +3,11 @@ import Sidebar from "./Sidebar";
 
 function AppLayout({ children }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#f3f4f6" }}>
+    <div className="app-shell">
       <Navbar />
-      <div style={{ display: "flex" }}>
+      <div className="app-body">
         <Sidebar />
-        <main style={{ flex: 1, padding: "24px" }}>
+        <main className="app-main">
           {children}
         </main>
       </div>

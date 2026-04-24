@@ -30,7 +30,9 @@ function LoginPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
+        <p className="auth-kicker">Welcome back</p>
         <h1>Login</h1>
+        <p className="auth-subtitle">Access your learning dashboard and continue where you left off.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">

@@ -48,7 +48,7 @@ function CoursesPage() {
                   Price: {course.isFree ? "Free" : `${course.price} TND`}
                 </div>
 
-                <div style={{ marginTop: "10px" }}>
+                <div className="course-status-row">
                   <span className={`badge ${course.isPublished ? "badge-published" : "badge-draft"}`}>
                     {course.isPublished ? "Published" : "Draft"}
                   </span>

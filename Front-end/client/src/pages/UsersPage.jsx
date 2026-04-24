@@ -75,7 +75,7 @@ function UsersPage() {
                 </td>
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <div className="action-group">
                     <button onClick={() => updateRole(user.id, "Admin")}>Make Admin</button>
                     <button onClick={() => updateRole(user.id, "Student")}>Make Student</button>
                     <button onClick={() => updateStatus(user.id, !user.isActive)}>

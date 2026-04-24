@@ -28,7 +28,9 @@ function RegisterPage() {
   return (
     <div className="auth-wrapper">
       <div className="auth-card">
+        <p className="auth-kicker">Create account</p>
         <h1>Register</h1>
+        <p className="auth-subtitle">Join LearnFlow and start managing your courses with a cleaner workspace.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">

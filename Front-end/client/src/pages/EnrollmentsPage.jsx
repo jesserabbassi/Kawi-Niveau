@@ -63,7 +63,7 @@ function EnrollmentsPage() {
     <AppLayout>
       <h1 className="page-title">Enrollments</h1>
 
-      <div className="section-card" style={{ marginBottom: "24px" }}>
+      <div className="section-card section-card--spaced">
         <h3>Create Enrollment</h3>
 
         <form onSubmit={createEnrollment}>

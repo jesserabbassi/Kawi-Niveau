@@ -4,37 +4,25 @@ function Sidebar() {
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const location = useLocation();
 
-  const linkStyle = (path) => ({
-    color: "white",
-    padding: "10px 12px",
-    borderRadius: "8px",
-    background: location.pathname === path ? "#1f2937" : "transparent"
-  });
+  const getLinkClassName = (path) =>
+    `sidebar__link${location.pathname === path ? " is-active" : ""}`;
 
   return (
-    <div
-      style={{
-        width: "230px",
-        background: "#0f172a",
-        color: "white",
-        minHeight: "calc(100vh - 64px)",
-        padding: "20px 14px"
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-        <Link to="/dashboard" style={linkStyle("/dashboard")}>Dashboard</Link>
-        <Link to="/courses" style={linkStyle("/courses")}>Courses</Link>
+    <aside className="sidebar">
+      <div className="sidebar__nav">
+        <Link to="/dashboard" className={getLinkClassName("/dashboard")}>Dashboard</Link>
+        <Link to="/courses" className={getLinkClassName("/courses")}>Courses</Link>
 
         {user?.role === "Admin" && (
           <>
-            <Link to="/admin" style={linkStyle("/admin")}>Admin</Link>
-            <Link to="/users" style={linkStyle("/users")}>Users</Link>
-            <Link to="/enrollments" style={linkStyle("/enrollments")}>Enrollments</Link>
-            <Link to="/analytics" style={linkStyle("/analytics")}>Analytics</Link>
+            <Link to="/admin" className={getLinkClassName("/admin")}>Admin</Link>
+            <Link to="/users" className={getLinkClassName("/users")}>Users</Link>
+            <Link to="/enrollments" className={getLinkClassName("/enrollments")}>Enrollments</Link>
+            <Link to="/analytics" className={getLinkClassName("/analytics")}>Analytics</Link>
           </>
         )}
       </div>
-    </div>
+    </aside>
   );
 }
 
