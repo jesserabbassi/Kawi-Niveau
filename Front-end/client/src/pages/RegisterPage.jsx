@@ -30,7 +30,7 @@ function RegisterPage() {
       <div className="auth-card">
         <p className="auth-kicker">Create account</p>
         <h1>Register</h1>
-        <p className="auth-subtitle">Join LearnFlow and start managing your courses with a cleaner workspace.</p>
+        <p className="auth-subtitle">Join KawiNiveau and start managing your courses with a cleaner workspace.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">

@@ -14,7 +14,7 @@ function Navbar() {
     <header className="topbar">
       <div className="topbar__brand">
         <p className="topbar__eyebrow">Kawi Niveau</p>
-        <h2 className="topbar__title">LearnFlow</h2>
+        <h2 className="topbar__title">KawiNiveau</h2>
       </div>
 
       <div className="topbar__actions">
