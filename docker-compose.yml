@@ -1,0 +1,50 @@
+services:
+  database:
+    image: postgres:16
+    container_name: learnflow_db
+    environment:
+      POSTGRES_DB: kawiniveau
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jesser2004
+    ports:
+      - "5433:5432"
+    volumes:
+      - learnflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d kawiniveau"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./KawiNiveauApi
+      dockerfile: Dockerfile
+    container_name: learnflow_api
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=database;Port=5432;Database=kawiniveau;Username=postgres;Password=jesser2004
+      Jwt__Key: THIS_IS_A_SUPER_SECRET_KEY_FOR_DEV_ONLY_123456
+      Jwt__Issuer: KawiNiveauApi
+      Jwt__Audience: KawiNiveauApiUsers
+    depends_on:
+      database:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./Front-end/client
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:5000/api
+    container_name: learnflow_client
+    ports:
+      - "3000:5173"
+    depends_on:
+      - backend
+
+volumes:
+  learnflow_pgdata:

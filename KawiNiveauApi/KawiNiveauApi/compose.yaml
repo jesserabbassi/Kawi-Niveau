@@ -1,0 +1,41 @@
+services:
+  database:
+    image: postgres:16
+    container_name: learnflow_db
+    environment:
+      POSTGRES_DB: learnflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - learnflow_pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./KawiNiveauApi
+      dockerfile: DockerFile
+    container_name: learnflow_api
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=database;Port=5432;Database=learnflow;Username=postgres;Password=jesser2004
+      Jwt__Key: THIS_IS_A_SUPER_SECRET_KEY_FOR_DEV_ONLY_123456
+      Jwt__Issuer: KawiNiveauApi
+      Jwt__Audience: KawiNiveauApiUsers
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./Front-end/client
+      dockerfile: Dockerfile
+    container_name: learnflow_client
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  learnflow_pgdata:
